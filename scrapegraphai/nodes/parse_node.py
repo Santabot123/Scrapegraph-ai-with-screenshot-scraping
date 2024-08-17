@@ -15,6 +15,7 @@ from ..utils.logging import get_logger
 from ..helpers import models_tokens
 from ..utils.tokenizer_openai import num_tokens_openai
 from .base_node import BaseNode
+from ..helpers.mappings import translation_hf
 
 class ParseNode(BaseNode):
     """
@@ -102,7 +103,7 @@ class ParseNode(BaseNode):
             elif isinstance(self.llm_model, ChatMistralAI):
                 print("mistral")
             elif isinstance(self.llm_model, ChatOllama):
-                tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3-8B")
+                tokenizer = AutoTokenizer.from_pretrained(translation_hf[self.llm_model.split("/")[-1]])
                 tokens = tokenizer.tokenize(docs_transformed.page_conten)
                 num_tokens = len(tokens)
             #google genai
